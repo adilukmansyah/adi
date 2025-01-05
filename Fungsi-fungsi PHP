@@ -1,0 +1,5 @@
+•	mysqli_connect: Membuat koneksi ke database.
+•	mysqli_query: Menjalankan query SQL.
+•	mysqli_fetch_assoc: Mengambil hasil query dalam bentuk array asosiatif.
+•	mysqli_prepare dan mysqli_stmt_bind_param: Menyiapkan statement dengan parameter untuk query yang aman (prepared statement).
+•	mysqli_close: Menutup koneksi database.
