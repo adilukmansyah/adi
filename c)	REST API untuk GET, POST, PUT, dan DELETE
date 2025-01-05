@@ -1,0 +1,37 @@
+header('Content-Type: application/json');
+$conn = new mysqli("localhost", "root", "", "todo_app");
+
+// GET (Retrieve tasks)
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    $result = $conn->query("SELECT * FROM todo_list");
+    echo json_encode($result->fetch_all(MYSQLI_ASSOC));
+}
+
+// POST (Add new task)
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $conn->query("INSERT INTO todo_list (title, description) VALUES ('$title', '$description')");
+    echo json_encode(["message" => "Task added successfully"]);
+}
+
+// PUT (Update a task)
+if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+    parse_str(file_get_contents("php://input"), $_PUT);
+    $id = $_PUT['id'];
+    $title = $_PUT['title'];
+    $description = $_PUT['description'];
+    $status = $_PUT['status'];
+    $conn->query("UPDATE todo_list SET title='$title', description='$description', status='$status' WHERE id=$id");
+    echo json_encode(["message" => "Task updated successfully"]);
+}
+
+// DELETE (Delete a task)
+if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+    parse_str(file_get_contents("php://input"), $_DELETE);
+    $id = $_DELETE['id'];
+    $conn->query("DELETE FROM todo_list WHERE id=$id");
+    echo json_encode(["message" => "Task deleted successfully"]);
+}
+
+$conn->close();
